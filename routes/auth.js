@@ -58,7 +58,9 @@ router.get('/login', async (req, res)=>{
             }
         }
 
-    }catch(err){}
+    }catch(err){
+        res.json(err.message)
+    }
 
 })
 
