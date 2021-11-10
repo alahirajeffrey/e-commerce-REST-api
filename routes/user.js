@@ -1,10 +1,10 @@
 const router = require('express').Router();
-const {verifyToken, verifyTokenAndAuthorization, verifyTokenAndAdmin} = require("./verifyToken");
+const {verifyToken, verifyTokenAndAuthorization, verifyTokenAndAmin} = require("./verifyToken");
 const CryptoJS = require('crypto-js');
 const User = require("../models/User");
 
 //update user
-router.put("/:id", verifyTokenAndAuthorization, async (req, res) => {
+router.put("/update:id", verifyTokenAndAuthorization, async (req, res) => {
      //check password
      if(req.body.password){
         //encrypt password
@@ -32,16 +32,7 @@ router.delete("/:id", verifyTokenAndAuthorization, async (req, res)=>{
 })
 
 //get single user
-router.get("/find/:id", verifyTokenAndAdmin, async (req, res)=>{
-    try{
-        const user = await User.findById(req.params.id)
-
-        const {password, ...others} = user._doc
-        res.status(200).json(...others)
-    }catch(err){
-        res.status(500).json(err)
-    }
-})
+router.get("/find:id", verifyTokenAndAmin, async (req, res)=>{})
 
 
 module.exports = router;
