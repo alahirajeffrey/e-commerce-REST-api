@@ -4,7 +4,7 @@ const CryptoJS = require('crypto-js');
 const User = require("../models/User");
 
 //update user
-router.put("/update:id", verifyTokenAndAuthorization, async (req, res) => {
+router.put("/:id", verifyTokenAndAuthorization, async (req, res) => {
      //check password
      if(req.body.password){
         //encrypt password
@@ -15,7 +15,14 @@ router.put("/update:id", verifyTokenAndAuthorization, async (req, res) => {
             $set : req.body}, 
             {new: true});
             
-        res.status(200).json(updatedUser);
+        res.status(200).json({
+            "userId" : updatedUser.id,
+            "username":updatedUser.username,
+            "email" : updatedUser.email,
+            "isAdmin" : updatedUser.isAdmin,
+            "dateCreated" : updatedUser.createdAt,
+            "accessToken" : updatedUser.accessToken
+        });
     }catch(err){
         return res.status(500).json(err);
     }
@@ -32,7 +39,30 @@ router.delete("/:id", verifyTokenAndAuthorization, async (req, res)=>{
 })
 
 //get single user
-router.get("/find:id", verifyTokenAndAmin, async (req, res)=>{})
+// router.get("/:id", verifyTokenAndAmin, async (req, res)=>{
+//     try{
+//         const user = await User.findById(req.params.id)
+//         res.send(200).json({
+//             "userId" : user.id,
+//             "username":user.username,
+//             "email" : user.email,
+//             "isAdmin" : user.isAdmin,
+//             "dateCreated" : user.createdAt,
+//             "accessToken" : accessToken
+//         })
+//     }catch(err){
+//         res.status(500).json(err)
+//     }
+// })
 
+//get all users
+// router.get("/:id", verifyTokenAndAmin, async (req, res)=>{
+//     try{
+//         const users = await User.find()
+//         res.status(200).json(users)
+//     }catch(err){
+//         res.status(500).json(err)
+//     }
+// })
 
 module.exports = router;
