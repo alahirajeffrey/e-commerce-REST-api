@@ -17,7 +17,13 @@ router.post("/register", async (req, res)=>{
     //save user
     try{
         const savedUser = await newUser.save()
-        res.status(201).json(savedUser)
+        res.status(201).json({
+            "userId" : savedUser.id,
+            "username":savedUser.username,
+            "email" : savedUser.email,
+            "isAdmin" : savedUser.isAdmin,
+            "dateCreated" : savedUser.createdAt,
+        })
     }catch(err){
         res.status(500).json(err)
     }
@@ -49,6 +55,7 @@ router.get('/login', async (req, res)=>{
                 {expiresIn:"1d"});
 
                 res.status(200).json({
+                    "userId" : user.id,
                     "username":user.username,
                     "email" : user.email,
                     "isAdmin" : user.isAdmin,
