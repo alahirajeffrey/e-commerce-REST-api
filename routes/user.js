@@ -5,6 +5,12 @@ const User = require("../models/User");
 
 //update user
 router.put("/:id", verifyTokenAndAuthorization, async (req, res) => {
+
+    //validate request
+    if(!req.body.username) return res.status(400).send({message : "Ooops. Username missing.."})
+    if(!req.body.email) return res.status(400).send({message : "Ooops. Email missing.."})
+    if(!req.body.password) return res.status(400).send({message : "Ooops. Password missing.."})
+
      //check password
      if(req.body.password){
         //encrypt password
@@ -30,6 +36,10 @@ router.put("/:id", verifyTokenAndAuthorization, async (req, res) => {
 
 //delete user
 router.delete("/:id", verifyTokenAndAuthorization, async (req, res)=>{
+    
+    //validate request
+    if(!req.params.id) return res.status(400).send({message : "Ooops. User id required.."})
+    
     try{
         await User.findByIdAndDelete(req.params.id)
         res.status(200).json("User has been deleted")

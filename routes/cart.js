@@ -4,6 +4,10 @@ const Cart = require("../models/Cart");
 
 //create product
 router.post('/', verifyToken, async (req, res)=>{
+
+    //validate request
+    if(!req.body.userId) return res.status(400).send({message : "Ooops. UserId is required.."})
+    
     const newCart = new Cart(req.body);
 
     try{
@@ -16,6 +20,10 @@ router.post('/', verifyToken, async (req, res)=>{
 
 //update product
 router.put('/:id', verifyTokenAndAuthorization, async (req, res)=>{
+    
+    //validate request
+    if(!req.params.id) return res.status(400).send({message : "Ooops. Id is required.."})
+
     try{
         const updatedCart = await Cart.findByIdAndUpdate(req.params.id, {
             $set: req.body},
@@ -28,6 +36,10 @@ router.put('/:id', verifyTokenAndAuthorization, async (req, res)=>{
 
 //delete product
 router.delete("/:id", verifyTokenAndAuthorization, async (req, res)=>{
+    
+    //validate request
+    if(!req.params.id) return res.status(400).send({message : "Ooops. Id is required.."})
+
     try{
         await Cart.findByIdAndDelete(req.params.id)
         res.status(200).json("Cart has been deleted")
@@ -38,6 +50,10 @@ router.delete("/:id", verifyTokenAndAuthorization, async (req, res)=>{
 
 //get user product
 router.get('/findOne/:id', verifyTokenAndAuthorization, async (req, res)=>{
+    
+    //validate request
+    if(!req.params.id) return res.status(400).send({message : "Ooops. UserId is required.."})
+
     try{
         const cart = await Cart.findOne({userId : req.params.id})
         res.status(200).json(cart)
@@ -54,10 +70,6 @@ router.get('/' , verifyTokenAndAmin, async (req, res)=>{
     }catch(err){
         res.status(500).json(err)
     }
-})
-
-router.get('/hello', (req, res)=>{
-    res.send("working")
 })
 
 module.exports = router;
