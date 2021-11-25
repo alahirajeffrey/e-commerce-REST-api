@@ -7,7 +7,7 @@ const jwt = require('jsonwebtoken')
 router.post("/register", async (req, res)=>{
     
     //validate request
-    if(!req.body.username) return res.status(400).send({message : "Ooops. Username missing.."})
+    if(!req.body.username) return res.status(400).send({message : "Ooops. sername missing.."})
     if(!req.body.email) return res.status(400).send({message : "Ooops. Email missing.."})
     if(!req.body.password) return res.status(400).send({message : "Ooops. Password missing.."})
 
