@@ -6,6 +6,11 @@ const jwt = require('jsonwebtoken')
 //register user
 router.post("/register", async (req, res)=>{
     
+    //validate request
+    if(!req.body.username) return res.status(400).send({message : "Ooops. Username missing.."})
+    if(!req.body.email) return res.status(400).send({message : "Ooops. Email missing.."})
+    if(!req.body.password) return res.status(400).send({message : "Ooops. Password missing.."})
+
     const newUser = new User({
         username : req.body.username,
         email : req.body.email,
@@ -31,6 +36,11 @@ router.post("/register", async (req, res)=>{
 
 //login
 router.get('/login', async (req, res)=>{
+    
+    //validate request
+    if(!req.body.username) return res.status(400).send({message : "Ooops. Username missing.."})
+    if(!req.body.email) return res.status(400).send({message : "Ooops. Email missing.."})
+    if(!req.body.password) return res.status(400).send({message : "Ooops. Password missing.."})
     
     try{
         //check if user exists
@@ -59,8 +69,7 @@ router.get('/login', async (req, res)=>{
                     "username":user.username,
                     "email" : user.email,
                     "isAdmin" : user.isAdmin,
-                    "dateCreated" : user.createdAt,
-                    "accessToken" : accessToken
+                    "dateCreated" : user.createdAt
                 });
             }
         }
