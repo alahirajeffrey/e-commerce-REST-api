@@ -20,6 +20,7 @@ mongoose.connect(process.env.MONGO_URL_LOCAL)
     });
 
 //configure express app
+app.use(cors())
 app.use(express.json());
 app.use("/api/auth", authRoute);
 app.use("/api/users", userRoute);
